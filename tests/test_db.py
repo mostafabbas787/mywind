@@ -61,9 +61,16 @@ def test_all_tables_exist(db_connection):
 def test_core_data_loaded(db_connection):
     """Verify that core tables contain seed data after import."""
     cursor = db_connection.cursor()
-    tables_to_check = ["products", "customers", "employees", "orders", "suppliers"]
-    for table in tables_to_check:
-        cursor.execute(f"SELECT COUNT(*) FROM `{table}`;")
+    # Queries are written out explicitly to avoid dynamic table-name construction.
+    checks = {
+        "products": "SELECT COUNT(*) FROM `products`;",
+        "customers": "SELECT COUNT(*) FROM `customers`;",
+        "employees": "SELECT COUNT(*) FROM `employees`;",
+        "orders": "SELECT COUNT(*) FROM `orders`;",
+        "suppliers": "SELECT COUNT(*) FROM `suppliers`;",
+    }
+    for table, query in checks.items():
+        cursor.execute(query)
         count = cursor.fetchone()[0]
         assert count > 0, f"Table '{table}' is empty — seed data was not loaded."
 

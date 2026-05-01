@@ -37,8 +37,8 @@ This report documents the automated tests defined in `tests/test_db.py` and exec
 
 ```bash
 # 1. Start a local MySQL 8.0 instance and import the schema/data
-mysql -h 127.0.0.1 -u root -proot < northwind.sql
-mysql -h 127.0.0.1 -u root -proot < northwind-data.sql
+MYSQL_PWD=root mysql -h 127.0.0.1 -u root < northwind.sql
+MYSQL_PWD=root mysql -h 127.0.0.1 -u root < northwind-data.sql
 
 # 2. Install Python dependencies
 pip install pytest mysql-connector-python

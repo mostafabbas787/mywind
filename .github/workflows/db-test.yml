@@ -10,6 +10,9 @@ jobs:
   test-database:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     services:
       mysql:
         image: mysql:8.0
@@ -39,12 +42,16 @@ jobs:
           pip install pytest mysql-connector-python
 
       - name: Import database schema
+        env:
+          MYSQL_PWD: root
         run: |
-          mysql -h 127.0.0.1 -u root -proot < northwind.sql
+          mysql -h 127.0.0.1 -u root < northwind.sql
 
       - name: Import database data
+        env:
+          MYSQL_PWD: root
         run: |
-          mysql -h 127.0.0.1 -u root -proot < northwind-data.sql
+          mysql -h 127.0.0.1 -u root < northwind-data.sql
 
       - name: Run PyTest database tests
         env:
